@@ -1,8 +1,13 @@
 import Foundation
 
 public protocol Solution {
+    var input: [String] { get }
     func question1() -> Any
     func question2() -> Any
+}
+
+public extension Solution {
+    var input: [String] { [] }
 }
 
 public func lines(for filename: String, in bundle: Bundle) -> [String] {
