@@ -1,4 +1,5 @@
 import AOCKit
+import Foundation
 
 extension Solution {
     var input: [String] {
@@ -7,6 +8,20 @@ extension Solution {
     }
 }
 
-let day = Day2()
-print("Question 1:", day.question1())
-print("Question 2:", day.question2())
+let day = Day02()
+print("Running: \(type(of: day))")
+
+func execute(function: () -> Any) {
+    let start = CFAbsoluteTimeGetCurrent()
+    let ans = function()
+    let diff = CFAbsoluteTimeGetCurrent() - start
+
+    print("Answer:", ans)
+    print("Ran in:", diff, "s")
+}
+
+print("== Question 1 ==")
+execute(function: day.question1)
+
+print("== Question 2 ==")
+execute(function: day.question2)

@@ -1,6 +1,6 @@
 import AOCKit
 
-struct Day1: Solution {
+struct Day01: Solution {
     
     private enum Constants {
         static let speltDigits = [

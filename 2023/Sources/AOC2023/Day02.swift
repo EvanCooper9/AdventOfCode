@@ -1,6 +1,6 @@
 import AOCKit
 
-final class Day2: Solution {
+final class Day02: Solution {
 
     private struct Game {
         typealias Block = String
