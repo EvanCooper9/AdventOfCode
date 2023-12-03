@@ -6,10 +6,7 @@ final class Day03: Solution {
     func question1() -> Any {
         parts
             .filter { part in
-                symbols.contains { symbol in
-                    let isAdjacent = part.isAdjacent(to: symbol.point)
-                    return isAdjacent
-                }
+                symbols.contains { part.isAdjacent(to: $0.point) }
             }
             .removingDuplicates()
             .map(\.number)
@@ -69,12 +66,6 @@ final class Day03: Solution {
         let number: Int
         let start: Point
         let end: Point
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(number)
-            hasher.combine(start)
-            hasher.combine(end)
-        }
 
         func isAdjacent(to point: Point) -> Bool {
             let xRange = (start.x - 1)...(end.x + 1)
