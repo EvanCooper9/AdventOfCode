@@ -8,7 +8,7 @@ extension Solution {
     }
 }
 
-let day = Day03()
+let day = Day04()
 print("Running: \(type(of: day))")
 
 func run(_ function: () -> Any) {
