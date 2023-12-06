@@ -19,19 +19,22 @@ final class Day06: Solution {
     }
 
     private func waysToWinRace(time: Int, distance: Int) -> Int {
-        func getFirstCanWinIndex(reversed: Bool) -> Int? {
-            for i in 1..<time {
-                let buttonHoldDownTime = reversed ? (time - i) : i
-                let currentDistance = (time - buttonHoldDownTime) * buttonHoldDownTime
-                guard currentDistance > distance else { continue }
-                return buttonHoldDownTime
+        func findWinningIndex(in range: Range<Int>, highest: Bool) -> Int? {
+            guard !range.isEmpty else { return nil }
+            guard range.count > 1 else { return highest ? range.upperBound : range.lowerBound }
+            let currentDistance = (time - range.mid) * range.mid
+            if currentDistance > distance {
+                let nextRangeToSearch = highest ? range.mid..<range.upperBound : range.lowerBound..<range.mid
+                return findWinningIndex(in: nextRangeToSearch, highest: highest)
+            } else {
+                let nextRangeToSearch = highest ? range.lowerBound..<range.mid : range.mid..<range.upperBound
+                return findWinningIndex(in: nextRangeToSearch, highest: highest)
             }
-            return nil
         }
 
-        guard let minCanWinIndex = getFirstCanWinIndex(reversed: false),
-              let maxCanWinIndex = getFirstCanWinIndex(reversed: true) else { return 0 }
-        return maxCanWinIndex - minCanWinIndex + 1
+        let lowestWinningIndex = (findWinningIndex(in: 1..<time, highest: false) ?? 0) + 1
+        let highestWinningIndex = (findWinningIndex(in: 1..<time, highest: true) ?? 0) - 1
+        return highestWinningIndex - lowestWinningIndex + 1
     }
 
     private func getNumbers(from line: String, withKering: Bool) -> [Int] {
@@ -46,5 +49,11 @@ final class Day06: Solution {
         } else {
             return numbers.compactMap { Int($0) }
         }
+    }
+}
+
+extension Range where Bound == Int {
+    var mid: Bound {
+        lowerBound + ((upperBound - lowerBound) / 2)
     }
 }
