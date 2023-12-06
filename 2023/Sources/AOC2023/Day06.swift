@@ -22,9 +22,8 @@ final class Day06: Solution {
         func getFirstCanWinIndex(reversed: Bool) -> Int? {
             for i in 1..<time {
                 let buttonHoldDownTime = reversed ? (time - i) : i
-                let currentDistance = (time - i) * i
-                let canWin = currentDistance > distance
-                guard canWin else { continue }
+                let currentDistance = (time - buttonHoldDownTime) * buttonHoldDownTime
+                guard currentDistance > distance else { continue }
                 return buttonHoldDownTime
             }
             return nil
