@@ -1,6 +1,5 @@
 import Algorithms
 import AOCKit
-import Darwin
 
 final class Day06: Solution {
 
@@ -49,11 +48,5 @@ final class Day06: Solution {
         } else {
             return numbers.compactMap { Int($0) }
         }
-    }
-}
-
-extension Range where Bound == Int {
-    var mid: Bound {
-        lowerBound + ((upperBound - lowerBound) / 2)
     }
 }

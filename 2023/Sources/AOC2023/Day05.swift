@@ -1,6 +1,5 @@
 import Algorithms
 import AOCKit
-import Darwin
 
 final class Day05: Solution {
 
