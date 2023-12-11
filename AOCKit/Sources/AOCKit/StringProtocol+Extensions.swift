@@ -14,6 +14,12 @@ public extension StringProtocol {
 }
 
 public extension StringProtocol {
+    var characters: [Character] {
+        var characters = [Character]()
+        forEach { characters.append($0) }
+        return characters
+    }
+
     func toInt() -> Int? {
         Int(self)
     }
