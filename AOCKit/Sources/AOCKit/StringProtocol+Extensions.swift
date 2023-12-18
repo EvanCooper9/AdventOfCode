@@ -1,5 +1,12 @@
 public extension StringProtocol {
-    subscript(offset: Int) -> Character { self[index(startIndex, offsetBy: offset)] }
+    subscript(offset: Int) -> Character {
+        get { self[index(startIndex, offsetBy: offset)] }
+//        set {
+//            var characters = self.characters
+//            characters[offset] = newValue
+//            self = String(characters)
+//        }
+    }
     subscript(range: Range<Int>) -> SubSequence {
         let startIndex = index(self.startIndex, offsetBy: range.lowerBound)
         return self[startIndex..<index(startIndex, offsetBy: range.count)]
@@ -22,5 +29,16 @@ public extension StringProtocol {
 
     func toInt() -> Int? {
         Int(self)
+    }
+}
+
+public extension String {
+    subscript(offset: Int) -> Character {
+        get { self[index(startIndex, offsetBy: offset)] }
+        set {
+            var characters = self.characters
+            characters[offset] = newValue
+            self = String(characters)
+        }
     }
 }

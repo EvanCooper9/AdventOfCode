@@ -4,3 +4,9 @@ public extension Collection {
         return self[index]
     }
 }
+
+public extension Collection where Element == Int {
+    var sum: Int {
+        reduce(0, +)
+    }
+}
