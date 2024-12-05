@@ -18,6 +18,10 @@ public extension StringProtocol {
     subscript(range: PartialRangeFrom<Int>) -> SubSequence { self[index(startIndex, offsetBy: range.lowerBound)...] }
     subscript(range: PartialRangeThrough<Int>) -> SubSequence { self[...index(startIndex, offsetBy: range.upperBound)] }
     subscript(range: PartialRangeUpTo<Int>) -> SubSequence { self[..<index(startIndex, offsetBy: range.upperBound)] }
+    subscript(safe offset: Int) -> Character? {
+        guard offset >= 0 && offset < count else { return nil }
+        return self[offset]
+    }
 }
 
 public extension StringProtocol {

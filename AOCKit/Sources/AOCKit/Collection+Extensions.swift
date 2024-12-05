@@ -9,4 +9,8 @@ public extension Collection where Element == Int {
     var sum: Int {
         reduce(0, +)
     }
+
+    var product: Int {
+        reduce(1, *)
+    }
 }

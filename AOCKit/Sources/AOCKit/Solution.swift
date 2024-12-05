@@ -1,13 +1,21 @@
 import Foundation
 
-public protocol Solution {
-    var input: [String] { get }
-    func question1() -> Any
-    func question2() -> Any
-}
+open class Solution {
 
-public extension Solution {
-    var input: [String] { [] }
+    public let input: [String]
+
+    public init(bundle: Bundle) {
+        let type = String(describing: Self.self)
+        input = lines(for: String(type), in: bundle)
+    }
+
+    open func question1() -> Any {
+        1
+    }
+
+    open func question2() -> Any {
+        2
+    }
 }
 
 public func lines(for filename: String, in bundle: Bundle) -> [String] {
