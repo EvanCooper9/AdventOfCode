@@ -3,27 +3,13 @@ import Algorithms
 
 final class Day04: Solution {
     override func question1() -> Any {
-        let target = "XMAS"
-        let targetReversed = String(target.reversed())
-
-        var count = 0
-
-        for r in rows {
-            count += r.components(separatedBy: target).count - 1
-            count += r.components(separatedBy: targetReversed).count - 1
-        }
-
-        for c in cols {
-            count += c.components(separatedBy: target).count - 1
-            count += c.components(separatedBy: targetReversed).count - 1
-        }
-
-        for d in diagonals {
-            count += d.components(separatedBy: target).count - 1
-            count += d.components(separatedBy: targetReversed).count - 1
-        }
-
-        return count
+        (rows + cols + diagonals)
+            .map { line in
+                ["XMAS", "SAMX"]
+                    .map { line.components(separatedBy: $0).count - 1 }
+                    .sum
+            }
+            .sum
     }
 
     override func question2() -> Any {
@@ -34,10 +20,10 @@ final class Day04: Solution {
         for y in 1 ..< (input.count - 1) {
             for x in 1 ..< (input[y].count - 1) {
                 if input[y][x] == "A" {
-                    let dA = [input[y - 1][x - 1], "A", input[y + 1][x + 1]]
-                    let dB = [input[y + 1][x - 1], "A", input[y - 1][x + 1]]
+                    let diagonalA = [input[y - 1][x - 1], "A", input[y + 1][x + 1]]
+                    let diagonalB = [input[y + 1][x - 1], "A", input[y - 1][x + 1]]
 
-                    if (dA == forward || dA == backward) && (dB == forward || dB == backward) {
+                    if (diagonalA == forward || diagonalA == backward) && (diagonalB == forward || diagonalB == backward) {
                         count += 1
                     }
                 }
@@ -48,44 +34,30 @@ final class Day04: Solution {
 
     private var diagonals: [String] {
         var diagonals = [Diagonal]()
-
         struct Diagonal: Hashable {
-            struct Point: Hashable {
-                let x: Int
-                let y: Int
-            }
-
-            let start: Point
+            let startX: Int
+            let startY: Int
             let value: String
         }
 
-        let height = input.count
         let width = input[0].count
-        for y in 0 ..< height {
+        for y in 0 ..< input.count {
             var leadingUp = [Character]()
             var leadingDown = [Character]()
             var trailingUp = [Character]()
             var trailingDown = [Character]()
             for x in 0 ..< width {
-                if let c = input[safe: y - x]?[safe: x] {
-                    leadingUp.append(c)
-                }
-                if let c = input[safe: y + x]?[safe: x] {
-                    leadingDown.append(c)
-                }
-                if let c = input[safe: y - x]?[safe: width - x - 1] {
-                    trailingUp.append(c)
-                }
-                if let c = input[safe: y + x]?[safe: width - x - 1] {
-                    trailingDown.append(c)
-                }
+                if let c = input[safe: y - x]?[safe: x] { leadingUp.append(c) }
+                if let c = input[safe: y + x]?[safe: x] { leadingDown.append(c) }
+                if let c = input[safe: y - x]?[safe: width - x - 1] { trailingUp.append(c) }
+                if let c = input[safe: y + x]?[safe: width - x - 1] { trailingDown.append(c) }
             }
 
             diagonals.append(contentsOf: [
-                Diagonal(start: .init(x: leadingUp.count - 1, y: y - leadingUp.count + 1), value: leadingUp.string),
-                Diagonal(start: .init(x: 0, y: y), value: leadingDown.string),
-                Diagonal(start: .init(x: width - trailingUp.count, y: y - trailingUp.count + 1), value: trailingUp.reversed().string),
-                Diagonal(start: .init(x: width - 1, y: y), value: trailingDown.reversed().string),
+                Diagonal(startX: leadingUp.count - 1, startY: y - leadingUp.count + 1, value: leadingUp.string),
+                Diagonal(startX: 0, startY: y, value: leadingDown.string),
+                Diagonal(startX: width - trailingUp.count, startY: y - trailingUp.count + 1, value: trailingUp.reversed().string),
+                Diagonal(startX: width - 1, startY: y, value: trailingDown.reversed().string),
             ])
         }
 
