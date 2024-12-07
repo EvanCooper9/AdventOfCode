@@ -13,23 +13,23 @@ final class Day04: Solution {
     }
 
     override func question2() -> Any {
-        let input = input
-        var count = 0
         let forward = "MAS".characters
         let backward = "SAM".characters
-        for y in 1 ..< (input.count - 1) {
-            for x in 1 ..< (input[y].count - 1) {
+        return (1 ..< (input.count - 1)).map { y in
+            (1 ..< (input[y].count - 1)).map { x in
                 if input[y][x] == "A" {
                     let diagonalA = [input[y - 1][x - 1], "A", input[y + 1][x + 1]]
                     let diagonalB = [input[y + 1][x - 1], "A", input[y - 1][x + 1]]
 
                     if (diagonalA == forward || diagonalA == backward) && (diagonalB == forward || diagonalB == backward) {
-                        count += 1
+                        return 1
                     }
                 }
+                return 0
             }
+            .sum
         }
-        return count
+        .sum
     }
 
     private var diagonals: [String] {

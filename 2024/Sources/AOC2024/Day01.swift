@@ -1,4 +1,5 @@
 import AOCKit
+import Algorithms
 
 final class Day01: Solution {
 
