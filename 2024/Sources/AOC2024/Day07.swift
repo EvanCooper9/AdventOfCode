@@ -16,36 +16,12 @@ final class Day07: Solution {
         case add
         case concatenate
 
-        func perform(lhs: Int, rhs: Int) -> Int {
+        func perform(lhs: Int?, rhs: Int) -> Int {
+            guard let lhs else { return rhs }
             switch self {
             case .multiply: return lhs * rhs
             case .add: return lhs + rhs
             case .concatenate: return lhs * pow(10, log10(rhs) + 1) + rhs
-            }
-        }
-    }
-
-    private func search(
-        numbers: [Int],
-        previousValue: Int? = nil,
-        operation: Operation? = nil,
-        operations: [Operation],
-        target: Int
-    ) -> Bool {
-        guard let number = numbers.first else { return false }
-        let value: Int = if let previousValue, let operation {
-            operation.perform(lhs: previousValue, rhs: number)
-        } else {
-            number
-        }
-        if value > target {
-            return false
-        } else if numbers.count == 1 && value == target {
-            return true
-        } else {
-            let numbers = Array(numbers.dropFirst())
-            return operations.contains { operation in
-                search(numbers: numbers, previousValue: value, operation: operation, operations: operations, target: target)
             }
         }
     }
@@ -57,6 +33,31 @@ final class Day07: Solution {
             let numbers = split[1].split(separator: " ").compactMap { $0.toInt() }
             let search = search(numbers: numbers, operations: operations, target: target)
             return search ? previous + target : previous
+        }
+    }
+
+    private func search(
+        numbers: [Int],
+        currentIndex: Int = 0,
+        previousValue: Int? = nil,
+        operation: Operation? = nil,
+        operations: [Operation],
+        target: Int
+    ) -> Bool {
+        guard let number = numbers[safe: currentIndex] else {
+            return previousValue == target
+        }
+        let value = operation?.perform(lhs: previousValue, rhs: number) ?? number
+        guard value <= target else { return false }
+        return operations.contains { operation in
+            search(
+                numbers: numbers,
+                currentIndex: currentIndex + 1,
+                previousValue: value,
+                operation: operation,
+                operations: operations,
+                target: target
+            )
         }
     }
 }
