@@ -64,17 +64,3 @@ final class Day08: Solution {
         return antinodes.count
     }
 }
-
-extension Collection {
-    func pairs(where isPair: (Element, Element) -> Bool) -> [(Element, Element)] {
-        var pairs = [(Element, Element)]()
-        forEach { element in
-            forEach { other in
-                if isPair(element, other) {
-                    pairs.append((element, other))
-                }
-            }
-        }
-        return pairs
-    }
-}
