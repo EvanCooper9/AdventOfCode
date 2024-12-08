@@ -31,7 +31,6 @@ final class Day08: Solution {
                 currentXTrailing += distance.x
                 currentYTrailing += leading.y < trailing.y ? distance.y : -distance.y
             }
-
             return currentAntinodes
         }
     }
@@ -42,25 +41,25 @@ final class Day08: Solution {
         for y in 0 ..< input.count {
             for x in 0 ..< input[y].count {
                 let character = input[y][x]
-                if character != "." {
-                    let point = Point(x: x, y: y)
-                    antennas[character, default: Set<Point>()].insert(point)
-                }
+                guard character != "." else { continue }
+                antennas[character, default: Set<Point>()].insert(Point(x: x, y: y))
             }
         }
 
         var antinodes = Set<Point>()
         antennas.forEach { character, points in
-            points.uniquePermutations(ofCount: 2).forEach { permutation in
-                let distance = Point(x: abs(permutation[1].x - permutation[0].x), y: abs(permutation[1].y - permutation[0].y))
-                let leading = permutation[0].x < permutation[1].x ? permutation[0] : permutation[1]
-                let trailing = leading == permutation[0] ? permutation[1] : permutation[0]
+            points.uniquePermutations(ofCount: 2)
+                .map { ($0[0], $0[1]) }
+                .forEach { first, second in
+                    let distance = Point(x: abs(second.x - first.x), y: abs(second.y - first.y))
+                    let leading = first.x < second.x ? first : second
+                    let trailing = leading == first ? second : first
 
-                for antinode in createAntinodes(leading, trailing, distance) {
-                    guard input.contains(point: antinode) else { continue }
-                    antinodes.insert(antinode)
+                    for antinode in createAntinodes(leading, trailing, distance) {
+                        guard input.contains(point: antinode) else { continue }
+                        antinodes.insert(antinode)
+                    }
                 }
-            }
         }
         return antinodes.count
     }
