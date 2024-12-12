@@ -9,3 +9,10 @@ public struct Point: Hashable {
         self.y = y
     }
 }
+
+public extension Point {
+    var left: Point { Point(x: x - 1, y: y) }
+    var right: Point { Point(x: x + 1, y: y) }
+    var up: Point { Point(x: x, y: y - 1) }
+    var down: Point { Point(x: x, y: y + 1) }
+}
