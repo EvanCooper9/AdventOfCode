@@ -20,7 +20,7 @@ extension Solution {
 }
 
 let start = CFAbsoluteTimeGetCurrent()
-let day = Day15(bundle: .module)
+let day = Day16(bundle: .module)
 let diff = CFAbsoluteTimeGetCurrent() - start
 print("Loaded: \(type(of: day)) in:", diff, "s")
 print("Running: \(type(of: day))")
