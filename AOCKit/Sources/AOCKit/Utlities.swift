@@ -36,3 +36,18 @@ public func countNumbers(n: Int) -> Int {
 public func log10(_ value: Int) -> Int {
     return Int(log(Double(value)) / log(10.0))
 }
+
+public func binarySearch(start: Int, end: Int, shouldSearchDown: (Int) -> Bool) -> Int {
+    var start = start
+    var end = end
+    while start < end {
+        let middle = start + (end - start) / 2
+        if shouldSearchDown(middle) {
+            end = middle - 1
+        } else {
+            start = middle + 1
+        }
+    }
+    
+    return start
+}
