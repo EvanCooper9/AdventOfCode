@@ -31,6 +31,10 @@ public extension StringProtocol {
         return characters
     }
 
+    var int: Int? {
+        Int(self)
+    }
+
     func toInt() -> Int? {
         Int(self)
     }
