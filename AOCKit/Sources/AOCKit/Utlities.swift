@@ -51,3 +51,30 @@ public func binarySearch(start: Int, end: Int, shouldSearchDown: (Int) -> Bool) 
     
     return start
 }
+
+public func distances<Element>(
+    from start: Point,
+    in grid: [[Element]],
+    validate: (Element) -> Bool,
+    cost: (_ currentDistance: Int, _ current: Point, _ next: Point) -> Int
+) -> [[Int]] {
+    var distances = Array(repeating: Array(repeating: Int.max, count: grid[0].count), count: grid.count)
+    distances[start.y][start.x] = 0
+    var queue = [start]
+    while !queue.isEmpty {
+        let current = queue.removeFirst()
+        let currentDistance = distances[current.y][current.x]
+        for next in [current.up, current.down, current.left, current.right] {
+            let cost = cost(currentDistance, current, next)
+            guard distances.contains(point: next),
+                  validate(grid[next.y][next.x]),
+                  cost <= distances[next.y][next.x]
+            else { continue }
+            
+            distances[next.y][next.x] = cost
+            queue.append(next)
+        }
+    }
+    
+    return distances
+}
